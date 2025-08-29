@@ -1,0 +1,222 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Sc}{\mathcal{S}}
+
+\title{Homework 2 --  Due 16th Feb}
+\author{\textbf{Richeek Das -- 66113700}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Problem 1. } $f \in L^1(\T)$ and $\sum_k |\hat{f}(k)| < \infty$.
+\\~
+
+(a). 
+\begin{gather*}
+    S_N f(x) = \sum_{|k| \leq N} \hat{f}(k) e^{2\pi i kx} \\
+    |\hat{f}(k) e^{2\pi i kx}| \leq |\hat{f}(k)| \,\text{ and }\, \sum_{k} |\hat{f}(k)| < \infty \implies \sum_{k} |\hat{f}(k) e^{2\pi i kx}| < \infty
+\end{gather*}
+By Weierstrass M-Test:
+$\sum_{k} \hat{f}(k) e^{2\pi i kx}$ converges uniformly to a continuous function, lets say $g(x)$. Then $S_N f \to g$ and $g$ is a cts function on $\T$. Clearly $g$ is periodic, since $\hat{f}(k) e^{2\pi i kx} = \hat{f}(k) e^{2\pi i k (x+1)}, \forall k$.
+\\~
+
+(b). We can integrate both sides:
+\begin{gather*}
+    \int_{0}^1 g(x) e^{-2\pi ikx} dx = \int_{0}^1 \lim_{N\to \infty}S_Nf(x) e^{-2\pi ikx} dx\\
+    = \lim_{N\to \infty} \int_{0}^1 S_Nf(x) e^{-2\pi ikx} dx \quad \text{ by uniform convergence}\\
+    = \lim_{N\to \infty} \int_{0}^1 \sum_{j=-N}^N \hat{f}(j) e^{2\pi ijx } e^{-2\pi ikx} dx
+\end{gather*}
+Now, 
+\begin{gather*}
+    \int_0^1 e^{2\pi imx}dx = \begin{cases}
+        1 & m=0\\
+        \frac{-1}{2\pi im} & m\neq 0
+    \end{cases}\\
+    \int_{0}^1 \sum_{j=-N}^N e^{2\pi i(j-k)x } dx\\
+    = \sum_{j=-N}^{N}\begin{cases}
+        1 & j=k\\
+        \frac{-1}{2\pi i (j-k)} & j\neq k
+    \end{cases}\\
+    = 1 \quad \text{ by symmetry}
+\end{gather*}
+Hence,
+\begin{gather*}
+    \lim_{N\to \infty} \int_{0}^1 \sum_{j=-N}^N \hat{f}(j) e^{2\pi ijx } e^{-2\pi ikx} dx\\
+    = \lim_{N\to \infty} \hat{f}(k) = \hat{f}(k)
+\end{gather*}
+Also,
+\begin{gather*}
+    \int_{0}^1 g(x) e^{-2\pi ikx} dx = \hat{g}(k)
+\end{gather*}
+Therefore,
+\begin{gather*}
+    \hat{g}(k) = \hat{f}(k), \, \forall k
+\end{gather*}
+The fourier coefficients are equal. Hence, by fourier uniqueness, $g=f$ a.e.
+\\~
+
+
+
+\textbf{Problem 2. } 
+\begin{gather*}
+    |f * K_n - f| = \lvert \int_0^1 f(x-t) K_n(t) dt - f(x) \rvert\\
+    = \lvert \int_0^1 f(x-t) K_n(t) dt - \int_0^1 f(x)K_n(t)dt \rvert \quad \int_0^1 K_n(t) dt = 1 \\
+    = \lvert \int_0^1 \left(f(x-t) -f(x) \right) K_n(t) dt \rvert\\
+    \leq \int_0^1 \lvert f(x-t) -f(x) \rvert \lvert K_n(t) \rvert dt \quad \text{ Minkowski's Ineq }\\
+    \leq \int_{|t| <\delta} \lvert f(x-t) -f(x) \rvert \lvert K_n(t) \rvert dt + \int_{\delta<|t|<\frac{1}{2}} \lvert f(x-t) -f(x) \rvert \lvert K_n(t) \rvert dt
+\end{gather*}
+\textbf{Second Integral: } $f \in C(\T)$. Continuous functions on compact support are bounded.
+\begin{gather*}
+    \int_{\delta<|t|<\frac{1}{2}} \lvert f(x-t) -f(x) \rvert \lvert K_n(t) \rvert dt\\
+    \leq \int_{\delta<|t|<\frac{1}{2}} (\lvert f(\cdot-t) \rvert + \lvert f \rvert) \lvert K_n(t) \rvert dt\\
+    = \int_{\delta<|t|<\frac{1}{2}} 2\lvert f \rvert \lvert K_n(t) \rvert dt\\
+    = 2\lvert f \rvert \int_{\delta<|t|<\frac{1}{2}} \lvert K_n(t) \rvert dt
+\end{gather*}
+$\forall \varepsilon>0, \exists N: \forall n>N, \int_{\delta<|t|<\frac{1}{2}} \lvert K_n(t) \rvert dt < \frac{\varepsilon}{4|f|}$
+\begin{gather*}
+    \forall \varepsilon>0, \exists N: \forall n>N, \textbf{2nd Integral} < \frac{\varepsilon}{2}
+\end{gather*}
+
+\textbf{First Integral: } $f \in C(\T)$. $f$ is uniformly continuous on $\T$. So $\forall \varepsilon>0, \exists \delta >0, \forall x \in\T, |f(x-\delta) - f(x)| \leq \frac{\varepsilon}{2M}$.
+\begin{gather*}
+    \forall \varepsilon>0, \exists \delta >0: \textbf{1st Integral} < \frac{\varepsilon}{2}
+\end{gather*}
+Combining:
+\begin{gather*}
+    N_0 = N_0(\delta) > 0, \forall N > N_0, |f*K_n - f| < \varepsilon
+\end{gather*}
+Clearly, this is uniform convergence since our $\delta$ is independent of the $x$.
+\\~
+
+\textbf{Problem 3. } 
+\begin{gather*}
+    \hat{f}(\xi) = \int_{\R} f(x) e^{-2\pi i\xi x}dx
+\end{gather*}
+Substituting $x \to x + \frac{1}{2\xi}$:
+\begin{gather*}
+    \hat{f}(\xi) = \int_{\R} f\left(x + \frac{1}{2\xi}\right) e^{-2\pi i \xi (x + \frac{1}{2\xi})} dx = \int_{\R} f\left(x + \frac{1}{2\xi}\right) e^{-2\pi i \xi x} e^{-\pi i} dx \\
+    = - \int_{\R} f\left(x + \frac{1}{2\xi}\right) e^{-2\pi i \xi x} dx\\
+    \implies \hat{f}(\xi) = \frac{1}{2} \int_{\R} \left[ f(x) - f\left(x + \frac{1}{2\xi}\right) \right] e^{-2\pi i \xi x} dx
+\end{gather*}
+If $f \in C_c(\R)$ (compactly supported continuous functions), then $f$ is uniformly continuous on $\R$.
+\begin{gather*}
+    \lim_{|\xi| \to \infty} \hat{f}(\xi) \leq \lim_{|\xi| \to \infty} \frac{1}{2} \int_{\R} \left\lvert f(x) - f\left(x + \frac{1}{2\xi}\right) \right\rvert dx\\
+    = \frac{1}{2} \int_{\R} \lim_{|\xi| \to \infty}  \left\lvert f(x) - f\left(x + \frac{1}{2\xi}\right) \right\rvert dx = 0
+\end{gather*}
+We can now use density to extend this argument to $L^1(\R):$
+\begin{gather*}
+    \forall f \in L^1(\R), \forall \varepsilon > 0, \exists g \in C_c(\R) :  \lVert f-g \rVert_{L^1} < \frac{\varepsilon}{2}
+\end{gather*}
+Let $\xi_0 >0: |\hat{g}(\xi)| < \frac{\varepsilon}{2}, \forall |\xi| > \xi_0$. Then:
+\begin{gather*}
+    |\hat{f}(\xi)| = |\widehat{f-g}(\xi) + \hat{g}(k)| \leq |\widehat{f-g}(\xi)| + |\hat{g}(k)| \leq \lVert f-g \rVert_{L^1} + |\hat{g}(k)| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon
+\end{gather*}
+
+\textbf{Problem 4. } 
+\textbf{Case: } $\boldsymbol{p = \infty}$
+\\~
+For $\alpha=0,\beta=0$, we have $\sup_{\R} |\varphi_n(x)| \to 0$ since $\phi_n \to 0$ in $\Sc(\R)$. Therefore,
+\begin{gather*}
+    \lVert \varphi_n \rVert_{L^{\infty}} \to 0 \text{ as } n\to\infty
+\end{gather*}
+
+
+\textbf{Case: } $\boldsymbol{p: (1 \leq p <\infty)}$
+\begin{gather*}
+    \lVert \varphi_n \rVert_{L^p} = \int_{\R} |\varphi_n(x)|^p dx
+\end{gather*}
+For $\alpha=2,\beta=0$ we have: $\sup_{\R} |x^2 \varphi_n(x)| \to 0$ as $n \to \infty$. This implies there is a constant $C$ s.t:
+\begin{gather*}
+    |\varphi_n(x)| \leq \frac{C}{1 + x^2}, \, \forall x, \forall n\\
+    \implies |\varphi_n(x)|^p \leq |\varphi_n(x)| \frac{C^{p-1}}{(1 + x^2)^{p-1}}
+\end{gather*}
+Since, $|\varphi_n(x)| \to 0$ uniformly, given $\varepsilon>0, \exists N: \forall n>N, |\varphi_n(x)| < \varepsilon, \forall x$. Thus:
+\begin{gather*}
+    \forall n>N, \int_{\R} |\varphi_n(x)|^p dx \leq \int_{\R} \varepsilon \frac{C^{p-1}}{(1 + x^2)^{p-1}} dx
+\end{gather*}
+Now $\int_{\R} \frac{1}{(1 + x^2)^{p-1}} dx$ is finite for $p\geq 1$ we have:
+\begin{gather*}
+    \lVert \varphi_n \rVert_{L^p} \to 0 \text{ as } n\to \infty
+\end{gather*}
+
+\textbf{Problem 5. } (a) Let $f,g \in \Sc(\R)$ and $a,b \in R$. Clearly:
+\begin{gather*}
+    \delta(af+bg) = (af+bg)(0) = af(0) + bg(0) = a\delta(f) + b\delta(g)
+\end{gather*}
+since, $\Sc(\R)$ is a vector space. Hence $\delta$ is linear. Now let:
+\begin{gather*}
+    \varphi_n \to 0, \, \varphi_n \in \Sc(\R)\\
+    \forall x \in \R: \forall \alpha,\beta \in \N: 0 \leq |x^{\alpha} \partial^{\beta} \varphi_n(x)| \leq \sup_{\R} |x^{\alpha} \partial^{\beta} \varphi_n(x)|
+\end{gather*}
+For $\alpha,\beta=0$ we have:
+\begin{gather*}
+    0 \leq |\varphi_n(0)| \leq \sup_{\R} |\varphi_n(x)|
+\end{gather*}
+By sandwich theorem and $n\to\infty$ we have:
+\begin{gather*}
+    \lim_{n\to\infty} \varphi_n = 0 \implies \lim_{n\to\infty} \delta(\varphi_n) = 0
+\end{gather*}
+Hence, $\delta$ is a tempered distribution.
+\\~
+
+(b)
+\begin{gather*}
+    \hat{\delta}(f) = \delta(\hat{f}), \, \forall f \in \Sc(\R)\\
+    = \hat{f}(0) = \int_{\R} f(x) e^{-2\pi i 0 x} dx = \int_{\R} f(x) \cdot 1 dx
+\end{gather*}
+Hence, $\hat{\delta}$ can be identified with the function $1$ on $\R$.
+\\~
+
+\textbf{Problem 6. } Let $1\leq p,q\leq \infty$. Suppose there exists $C > 0$ so that the following is true for all $f \in \Sc(\R)$:
+\begin{gather*}
+    \lVert \hat{f} \rVert_{L^q(\R)} \leq C \lVert f \rVert_{L^p(\R)}
+\end{gather*}
+We want to show that $\frac{1}{p} + \frac{1}{q} = 1$.
+\\~
+
+Let $f(x) = e^{-\pi x^2}$ and $f_{\lambda}(x) = f(\lambda x) = e^{-\pi \lambda^2 x^2}$ for $\lambda>0$.
+\begin{gather*}
+    \hat{f_{\lambda}} (\xi) = \int_{\R} e^{-\pi \lambda^2x^2} e^{-2\pi i \xi x} dx\\
+    = \frac{1}{\lambda} e^{-\pi \frac{\xi^2}{\lambda^2}} ,\, \text{ substituting } \lambda x \to x
+\end{gather*}
+$L^p$ norm of $f_{\lambda}$:
+
+\begin{gather*}
+    \lVert f_{\lambda} \rVert_{L^p} = \left( \int_{\R} |e^{-\pi \lambda^2 x^2}|^p dx \right)^{\frac{1}{p}}\\
+    = \left( \int_{\R} e^{-\pi p\lambda^2 x^2} dx \right)^{\frac{1}{p}}\\
+    = \lambda^{-\frac{1}{p}}\left( \int_{\R} e^{-\pi p y^2} dy \right)^{\frac{1}{p}} ,\quad y = \lambda x\\
+    = \lambda^{-\frac{1}{p}} \lvert f \rVert_{L^p}
+\end{gather*}
+$L^q$ norm of $\hat{f_{\lambda}}$:
+
+\begin{gather*}
+    \lVert \hat{f_{\lambda}} \rVert_{L^q} = \left( \int_{\R} \frac{1}{\lambda} e^{-\pi q\frac{\xi^2}{\lambda^2}}dx \right)^{\frac{1}{q}}\\
+    = \frac{1}{\lambda} \left( \int_{\R} e^{-\pi q\frac{\xi^2}{\lambda^2}}dx \right)^{\frac{1}{q}}\\
+    = \frac{1}{\lambda} \lambda^{\frac{1}{q}} \left( \int_{\R} e^{-\pi q z^2}dz \right)^{\frac{1}{q}} ,\quad z = \frac{\xi}{\lambda} \\
+    = \lambda^{\frac{1}{q} - 1} \lVert f \rVert_{L^q}
+\end{gather*}
+Now we can check the given inequality:
+
+\begin{gather*}
+    \lambda^{\frac{1}{q} - 1} \lVert f \rVert_{L^q} \leq C \lambda^{-\frac{1}{p}} \lvert f \rVert_{L^p}
+\end{gather*}
+Now, we know 
+\begin{gather*}
+    \frac{C \lVert f\rVert_p}{\lVert f\rVert_q} \geq 1\\
+    \implies \lambda^{\frac{1}{q}+\frac{1}{p} -1} \geq 1
+\end{gather*}
+This can only hold for all $\lambda >0$ if $\frac{1}{q}+\frac{1}{p} = 1$.
+
+\end{document} 

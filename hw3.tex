@@ -1,0 +1,229 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Sc}{\mathcal{S}}
+
+\title{Homework 3 --  Due 2nd March}
+\author{\textbf{Richeek Das -- 66113700}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Problem 1. } (a)
+\begin{gather*}
+    \delta * f(h) = \delta(\tilde{f} * h) \quad \text{ by defn}\\
+    = (\tilde{f}*h)(0) \quad \text{ defn of Dirac Delta}\\
+    = \int_{\R} \tilde{f}(t) h(0-t) dt\\
+    = \int_{\R} f(-t) h(-t) dt \\
+    = \int_{\R} f(u)h(u)du \\
+    = f(h)
+\end{gather*}
+Here, we do abuse notation to write $f$ as Schwartz and Tempered distributions depending on the context. Hence $\delta * f(h) = f(h) \implies \delta * f = f$.
+\\~
+
+(b) 
+\begin{gather*}
+    \widehat{T * f}(h) = (T*f)(\hat{h}) \quad \forall h \in \Sc\\
+    = T(\tilde{f} * \hat{h})
+\end{gather*}
+Now lets apply some properties of FT
+\begin{gather*}
+    \widehat{\tilde{f} * \hat{h}} = \hat{\tilde{f}} \cdot \hat{\hat{h}} = \hat{\tilde{f}} \cdot \tilde{h}\\
+    \implies \tilde{f} * \hat{h} = (\hat{\tilde{f}} \cdot \tilde{h})^{\Breve{}}\\
+    = \widetilde{\widehat{\hat{\tilde{f}} \cdot \tilde{h}}} \\
+    = \widehat{\hat{f}\cdot h} \quad \boldsymbol{(*)}
+\end{gather*}
+Implies
+\begin{gather*}
+    T(\tilde{f} * \hat{h}) = T(\widehat{\hat{f}\cdot h}) = \hat{T}(\hat{f}\cdot h) = \hat{T}\cdot \hat{f}
+\end{gather*}
+
+Justification for $\boldsymbol{(*)}$
+\begin{gather*}
+    \hat{\tilde{f}}(\xi) = \int_{\R} f(-x) e^{- 2\pi i \xi x} dx = \int_{\R} f(u)e^{- 2\pi i (-\xi) u} du = \hat{f}(-\xi) = \tilde{\hat{f}}(\xi)
+\end{gather*}
+\\~
+
+
+\textbf{Problem 2. } Since Schwartz functions with compactly supported fourier transform are dense in $L^p(\R)$, for any $f \in L^p(\R)$ and $\forall \varepsilon > 0, \exists g:$
+\begin{gather*}
+    \lVert f - g\rVert_p < \frac{\varepsilon}{2 C_p}
+\end{gather*}
+and $\exists R_0: \hat{g}(\xi) = 0$ for $|\xi| > R_0$.
+\begin{gather*}
+    S_R g = g, \, \forall R \geq R_0
+\end{gather*}
+Now we can consider the $L^p$ distance of $S_Rf $ and $f$:
+\begin{gather*}
+    \lVert S_R f - f \rVert_p \leq \lVert S_Rf - S_R g\rVert_p + \lVert S_Rg - g \rVert_p + \lVert g-f \rVert_p
+\end{gather*}
+Now, 
+\begin{gather*}
+    \lVert S_Rf - S_R g\rVert_p \leq C_p \lVert f-g \rVert_p < C_p \frac{\varepsilon}{2C_p} = \frac{\varepsilon}{2}\\
+    \lVert S_Rg - g \rVert_p = 0, \forall R \geq R_0\\
+    \lVert g-f \rVert_p < \frac{\varepsilon}{2C_p}
+\end{gather*}
+Therefore, 
+\begin{gather*}
+    \lVert S_R f - f \rVert_p < \frac{\varepsilon}{2} + 0 + \frac{\varepsilon}{2C_p}
+\end{gather*}
+Hence, $S_R f \to f$ in $L^p(\R)$ as $R\to \infty$.
+\\~
+
+\textbf{Problem 3. } \textbf{1. Positivity}
+\begin{gather*}
+    \lVert f \rVert_{p, \infty} = \sup_{\lambda > 0} \lambda \mu\{x: |f(x)| > \lambda\}^{\frac{1}{p}}
+\end{gather*}
+Since, supremum of non negative numbers is non negative $\lVert f \rVert_{p, \infty} \geq 0$. Now, if $\lVert f \rVert_{p, \infty} = 0$, then $\forall \lambda > 0$:
+\begin{gather*}
+    \lambda \mu\{x: |f(x)| > \lambda\}^{\frac{1}{p}} = 0\\
+    \implies \mu\{x: |f(x)| > \lambda\} = 0 \quad \text{ since } \lambda \text{ is arbitrary }
+\end{gather*}
+Therefore if $\lVert f \rVert_{p, \infty} = 0$, $f=0$ a.e.
+\\~
+
+\textbf{2. Absolute Homogeneity}
+
+For any scalar $\alpha$,
+\begin{gather*}
+    \lVert \alpha f \rVert_{p, \infty} = \sup_{\lambda > 0} \lambda \mu\{x: |\alpha f(x)| > \lambda\}^{\frac{1}{p}}\\
+    = \sup_{\tau > 0} |\alpha| \tau \mu\{x: |\alpha f(x)| > |\alpha|\tau\}^{\frac{1}{p}} \quad \text{ substituting } \lambda = \tau |\alpha|\\
+    = \sup_{\tau > 0} |\alpha| \tau \mu\{x: |f(x)| > \tau\}^{\frac{1}{p}}\\
+    = |\alpha| \sup_{\tau > 0} \tau \mu\{x: |f(x)| > \tau\}^{\frac{1}{p}}\\
+    = |\alpha| \lVert f \rVert_{p, \infty}
+\end{gather*}
+
+\textbf{3. Quasi-triangle Inequality}
+
+\begin{gather*}
+    \lVert f + g \rVert_{p, \infty} = \sup_{\lambda > 0} \lambda \mu\{x: |f(x) + g(x)| > \lambda\}^{\frac{1}{p}}\\
+    \leq \sup_{\lambda > 0} \lambda \left( \mu\{x: |f(x)| > \frac{\lambda}{2}\} + \mu\{x: |g(x)| > \frac{\lambda}{2}\} \right)^{\frac{1}{p}} \\
+    = \sup_{\alpha > 0} 2\alpha \left( \mu\{x: |f(x)| > \alpha\} + \mu\{x: |g(x)| > \alpha\} \right)^{\frac{1}{p}} \quad \text{ substituting } \alpha = \frac{\lambda}{2}\\
+    \leq 2 \sup_{\alpha > 0} \alpha \left( \left( \mu\{x: |f(x)| > \alpha\} \right)^{\frac{1}{p}} +  \left( \mu\{x: |g(x)| > \alpha\} \right)^{\frac{1}{p}} \right) \quad \text{Minkowski}\\
+    \leq 2 \left( \lVert f \rVert_{p, \infty} + \lVert g \rVert_{p, \infty} \right)
+\end{gather*}
+Therefore, weak p norm satisfies quasi triangle inequality with $C = 2$.
+\\~
+
+\textbf{Problem 4. } 
+
+$\{T_t\}$ be a family of linear operators on $L^p(\R)$ and $T^* f(x) = \sup_t |T_tf(x)|$ be their associated maximal operator. Now if we suppose that $T^*$ is weak $(p,q)$ where $1 \leq p,q \leq \infty$, then we want to show that the set
+\begin{gather*}
+    \{f \in L^p(\R): \lim_{t \to t_0} T_tf(x) \text{ exists a.e.}\}
+\end{gather*}
+is closed in $L^p(\R)$.
+\\~
+
+Following the hint, we note that the limit exists iff $\limsup_{t\to t_0} T_tf - \liminf_{t \to t_0}T_t f = 0$. Now consider, a sequence of functions $f_n \in \{f \in L^p(\R): \lim_{t \to t_0} T_tf(x) \text{ exists a.e.}\}$ s.t $f_n \to f$ in $L^p$. Define:
+\begin{gather*}
+    S_f(x) = \limsup_{t\to t_0} T_tf - \liminf_{t \to t_0}T_t f
+\end{gather*}
+Then, clearly $S_{f_n}(x) = 0, \forall n$.
+\\~
+
+Now we follow a similar proof like Theorem 2 in Lecture 10. First we need to upper bound the measures of our sets:
+\begin{gather*}
+    \lambda>0,\, \mu\{x\in \R: S_f(x) > \lambda\}
+\end{gather*}
+with something more familiar that can be bounded.
+
+\begin{gather*}
+    |T_af(x) - T_af_n(x)| \leq T^* (f-f_n)(x)\\
+    |T_bf(x) - T_bf_n(x)| \leq T^* (f-f_n)(x)
+\end{gather*}
+Now
+\begin{gather*}
+    \limsup_{t\to t_0} T_{a}f(x) - \liminf_{t \to t_0} T_{b}f(x) \\
+    = \limsup_{t\to t_0} T_{a}(f(x) - f_n(x)) - \liminf_{t \to t_0} T_{b}(f(x) - f_n(x)) +\\ - \limsup_{t\to t_0} T_{a}f_n(x) + \liminf_{t \to t_0} T_{b}f_n(x)\\
+    = \limsup_{t\to t_0} T_{a}(f(x) - f_n(x)) - \liminf_{t \to t_0} T_{b}(f(x) - f_n(x)) \\
+    \leq |T_{a}(f(x) - f_n(x))| + |T_{b}(f(x) - f_n(x))| \\
+    \leq 2 T^* (f-f_n)(x)
+\end{gather*}
+Now, we have our more familiar set!
+\begin{gather*}
+    \lambda > 0 : \mu\{x\in \R: S_f(x) > \lambda\} \subset \mu\{x\in \R: 2 T^* (f-f_n)(x) > \lambda\}
+\end{gather*}
+By definition of weak $(p,q)$, we have:
+\begin{gather*}
+    \mu\{x\in \R: T^* (f-f_n)(x) > \lambda/2\} \lesssim \frac{1}{\lambda^q} \lVert f - f_n\rVert_{L^p}^q \to 0\\
+    \implies \mu\{x\in \R: S_f(x) > \lambda\} = 0
+\end{gather*}
+Therefore, we can conclude that $\lim_{t\to t_0} T_t f$ exists a.e. Hence it is in the set, implying that the set is closed.
+\\~
+
+
+
+\textbf{Problem 5. } 
+\begin{gather*}
+    Mf(x) = \sup_{r > 0} \frac{1}{\mu(B(x,r))} \int_{B(x,r)} |f(y)|dy\\
+    M'f(x) = \sup_{I \ni x} \frac{1}{\mu(I)} \int_{I} |f(y)|dy \quad \forall f \in L_{loc}^1(\R), \forall x \in \R
+\end{gather*}
+
+\textbf{Claim: } $cMf(x) \leq M'f(x)$
+\\~
+
+This direction of the proof is trivial. Every ball $B(x,r)$ is an interval centered at $x$ and any such interval is included in the search for the supremum on $M'f(x)$. Therefore, $Mf(x)$ is a supremum taken over a subset of the intervals considered in $M'f(x)$. Hence $Mf(x) \leq M'f(x)$. This proves the lower bound with constant $c=1$.
+\\~
+
+\textbf{Claim: } $M'f(x) \leq C Mf(x)$
+\\~
+
+$\forall I \ni x$ let $r = \mu(I)$, then $I \subset B(x,r)$
+\begin{gather*}
+    \frac{1}{\mu(I)} \int_{I} |f(y)|dy \leq \frac{1}{\mu(I)} \int_{B(x,r)} |f(y)|dy \\
+    = \frac{1}{r} \int_{B(x,r)} |f(y)|dy \\
+    = \frac{2}{\mu(B(x, r))} \int_{B(x,r)} |f(y)|dy  \quad \text{ since in } \R, \mu(B(x, r)) = 2r\\
+    \leq 2 \sup_{r > 0} \frac{1}{\mu(B(x,r))} \int_{B(x,r)} |f(y)|dy = 2 Mf(x)
+\end{gather*}
+Therefore,
+\begin{gather*}
+    M'f(x) = \sup_{I\ni x} \frac{1}{\mu(I)} \int_{I} |f(y)|dy \leq 2 Mf(x)
+\end{gather*}
+Therefore, we found an upper bound with $C = 2$.
+\\~
+
+\textbf{Problem 6. }
+
+\textbf{Fun fact: } Being from a CS background, I can't help but notice the similarities in thought process between covering lemmas and a certain class of greedy algorithms, like interval scheduling, etc. \href{https://www.cs.princeton.edu/~wayne/kleinberg-tardos/pearson/04GreedyAlgorithms-2x2.pdf}{interval scheduling link}.
+\\~
+
+
+Since, $K$ is compact, there exists a finite subcollection of open intervals in $\R$ such that,
+\begin{gather*}
+    K \subset \bigcup_{j=1}^{M} I_j
+\end{gather*}
+Now, we claim that we can select a subset of these intervals further such that we have a set that covers each point in $\R$ almost 2 times.
+
+Taking inspiration from interval scheduling problems in algorithms, we propose a method to construct this subset of intervals here:
+\begin{enumerate}
+    \item Since, K is closed and bounded, let $x_1 = \min K$. Choose $I_1 \ni x_1$ as the interval with the highest right endpoint and interval size as the second priority.
+    
+    \item Let $c$ be the number of intervals chosen. If $c \geq 1$ and $I_1, I_2, \dots, I_c$ have been chosen, but $K \backslash \cup_{i=1}^c I_i \neq \phi$, then define $x_{c+1} = \min \{K \backslash \cup_{i=1}^c I_i\}$.
+    
+    \item Same as before, choose $I_{c+1} \ni x_{c+1}$ such that it has the highest right endpoint and interval size as the second priority. Continue from step 2.
+
+    \item Since the number of intervals is finite (=M), this loop must terminate. This will yield a finite subcover such that $K \subset \cup_{j=1}^N I_j$.
+\end{enumerate}
+Now if we look at step 3 carefully, we should notice that interval $I_{c+1}$ cannot cover $x_{c}$, otherwise, $I_{c+1}$ would get chosen in the previous iteration. Hence, every $I_{c+1} \bigcap \cup_{j=1}^{c-1}I_j = \phi$. Hence the sets of intervals $\{I_{2k}\}_{k=1}^{N//2}$ and $\{I_{2k+1}\}_{k=0}^{(N-1)//2}$ are pairwise disjoint. Hence,
+
+\begin{gather*}
+    \sum_{j=1}^{N}\chi I_j(x) \leq 2, \, \forall x\in \R\\
+    \text{And } K \subset \bigcup_{j=1}^N I_j \text{ by construction}
+\end{gather*}
+
+
+
+
+\end{document} 

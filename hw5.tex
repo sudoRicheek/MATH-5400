@@ -1,0 +1,217 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{esint}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Sc}{\mathcal{S}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\supp}{\text{supp}}
+\newcommand{\bmo}{\text{BMO}}
+\newcommand{\sgn}{\text{sgn}}
+
+\title{Homework 5 --  Due 6th April}
+\author{\textbf{Richeek Das -- 66113700}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Problem 1. } $Tf = \sum_{I \in \D} \langle f, h_{\tilde{I}}\rangle h_I$ be the dyadic shift operator, where $\tilde{I}$ is the dyadic parent of $I$. Proving that $T$ maps boundedly from $H^1\to L^1$, is similar to the proof for $T_{\sigma}$.
+\\~
+
+For $f = a_I$ that is an individual atom:
+\begin{gather*}
+    Tf = Ta_I = \sum_{J \in \D} \langle a_I, h_{\tilde{J}} \rangle h_J
+\end{gather*}
+Now, 3 possibilities:
+\begin{enumerate}
+    \item $I \cap \tilde{J} = \phi$: $\langle a_I, h_{\tilde{J}} \rangle = 0$
+
+    \item $I \subsetneq \tilde{J}$: $\langle a_I, h_{\tilde{J}} \rangle = \int a_I = 0$
+
+    \item $I \supset \tilde{J}$: $\langle a_I, h_{\tilde{J}} \rangle \neq 0$
+\end{enumerate}
+Therefore,
+\begin{gather*}
+    Tf = \sum_{J \subsetneq I} \langle a_I, h_{\tilde{J}} \rangle h_J
+\end{gather*}
+Therefore $\supp (Tf) = I$.
+\begin{gather*}
+    \lVert Tf \rVert_1 \leq \lVert Tf \rVert_2  \cdot |I|^{1/2} = \sqrt{2}\lVert a_I \rVert_{2} \cdot |I|^{1/2} \quad ,L^2 \text{ bound from HW4}\\
+    \leq 1
+\end{gather*}
+Now $\forall f \in H^1$, write $f = \sum \lambda_I a_I$.
+\begin{gather*}
+    \lVert Tf \rVert_1 \leq \sum_I |\lambda_I| \cdot \lVert Ta_I \rVert_1 \leq \sum_I |\lambda_I| \\
+    \leq \inf_{f = \sum_{I} \lambda_I a_I} \sum_I |\lambda_I| = \lVert f \rVert_{H^1}
+\end{gather*}
+\clearpage
+
+
+\textbf{Problem 2. } $E^* f(x) := \sup_{I \in \D:x \in I} \left| \frac{1}{|I|} \int_I f(y)dy \right|$ is the maximal expectation operator. We want to show that $E^*$ maps boundedly from $H^1 \to L^1$.
+\\~
+
+Any function $f \in H^1$ can be written as $f = \sum_j \lambda_j a_j$. Therefore by sublinearity of $E^*$ we have:
+\begin{gather*}
+    \lVert E^*f\rVert_{L^1} = \lVert E^* \left( \sum_j \lambda_j a_j \right)\rVert_{L^1} \leq \sum_j |\lambda_j| \lvert E^* a_j \rVert_{L^1}
+\end{gather*}
+Therefore, we want to show that $E^* a$ is uniformly bounded for all atoms $a$. Now,
+\begin{gather*}
+    \lVert E^* a_J \rVert_{L^1} = \int_{\R} E^*a_J(x)dx = \int_{2J} E^*a_J(x)dx + \int_{\R \backslash 2J} E^*a_J(x)dx
+\end{gather*}
+Here,
+\begin{gather*}
+   \int_{2J} E^*a_J(x)dx \leq |2J|^{1/2} \lVert E^* a_J \rVert_{L^2 (2J)} \leq C |2J|^{1/2} \lVert a_J \rVert_{L^2 (2J)} \\
+   \leq C |2J|^{1/2} |J|^{-1/2} = C \sqrt{2}
+\end{gather*}
+since we know that $E^*$ is bounded on $L^2$ by constant $C$. Now consider the other integral. For $x \in \R \backslash 2J$, we consider the intervals $I \ni x$. If $x \in I$ and $I \cap J \neq \phi$, then $J \subset I$, since $x \notin 2J$. For such intervals:
+\begin{gather*}
+    \int_I a(y)dy = 0
+\end{gather*}
+Also, if $ I \cap J = \phi$, it is 0 as well. Therefore, $E^*a_J(x) = 0$ $\forall x \in \R \backslash 2J$. Combining:
+\begin{gather*}
+    \lVert E^* a_J \rVert_{L^1} \leq C \sqrt{2} + 0 \\
+    \lVert E^*f\rVert_{L^1} \leq \sum_j |\lambda_j| \lvert E^* a_j \rVert_{L^1}\\
+    \leq C \sqrt{2} \sum_j |\lambda_j|
+\end{gather*}
+Taking infimum:
+\begin{gather*}
+    \leq C \sqrt{2} \lVert f \rVert_{H^1}
+\end{gather*}
+Hence proved.
+\clearpage
+
+
+\textbf{Problem 3. } Let $b \in L^2 \cap \bmo_{\D}$. We want to show that:
+\begin{gather*}
+    \lVert b \rVert_{\bmo_{\D}^2} = \sup_{J \in \D} \frac{1}{|J|} \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2
+\end{gather*}
+
+Since $b \in L^2$, we can expand it into haar bases $b = \sum \langle b, h_I \rangle h_I$. Then:
+\begin{gather*}
+    \lVert b \rVert_{\bmo_{\D}^2} = \sup_{I \in \D} \left( \fint_I \left|b - \fint_I b\right|^2 \right)^{1/2} \\
+    \fint_I \left|b - \fint_I b\right|^2 = \fint_I \left|\sum_J \langle b, h_J \rangle h_J - \fint_I \sum_J \langle b, h_J \rangle h_J\right|^2 \\
+    = \fint_I \left|\sum_J \langle b, h_J \rangle (h_J - \fint_I h_J) \right|^2
+\end{gather*}
+If $I \subsetneq J$, then $h_J - \fint_I h_J = 0$. So, the only remaining terms have $I \supset J$. But here $\fint_I h_J = 0$. So we can simplify:
+\begin{gather*}
+    \fint_I \left|b - \fint_I b\right|^2 = \fint_I \left|\sum_{J \subset I} \langle b, h_J \rangle h_J \right|^2
+\end{gather*}
+Therefore,
+\begin{gather*}
+    \lVert b \rVert_{\bmo_{\D}^2}^2 = \sup_{I \in \D} \left( \fint_I \left|\sum_{J \subset I} \langle b, h_J \rangle h_J \right|^2 \right)
+\end{gather*}
+Now,
+\begin{gather*}
+    \fint_I \left|\sum_{J \subset I} \langle b, h_J \rangle h_J(x) \right|^2 dx = \frac{1}{|I|} \sum_{J,J' \in \D, J,J' \subset I} \langle b, h_J \rangle \langle b, h_{J'} \rangle \int_I h_J(x) h_{J'}(x)dx
+\end{gather*}
+Now by orthogonality only $J = J'$ terms survive:
+\begin{gather*}
+    = \frac{1}{|I|} \sum_{J \in \D, J \subset I} | \langle b, h_J \rangle |^2 \int_I |h_J(x)|^2 dx \\
+    = \frac{1}{|I|} \sum_{J \in \D, J \subset I} | \langle b, h_J \rangle |^2 \quad \text{by orthonormality}
+\end{gather*}
+Therefore we have proved:
+\begin{gather*}
+    \lVert b \rVert_{\bmo_{\D}^2}^2 = \sup_{I \in \D} \left( \frac{1}{|I|} \sum_{J \in \D, J \subset I} | \langle b, h_J \rangle |^2 \right)
+\end{gather*}
+\clearpage
+
+
+\textbf{Problem 4. } We want to prove that $b \in L^p \cap \bmo_{\D}$ iff:
+\begin{gather*}
+    \sup_{J \in \D} \frac{1}{|J|} \left\lVert \left( \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 \frac{\chi_I}{|I|} \right)^{1/2} \right\rVert_{L^p}^p < \infty, \quad \forall 1 < p < \infty
+\end{gather*}
+
+\textbf{Forward direction. } Let $b \in \bmo_{\D}$. Now for any $J \in \D$ define:
+\begin{gather*}
+    S_J b(x) = \left( \sum_{I \subset J} |\langle b, h_I \rangle|^2 \frac{\chi_I}{|I|} \right)^{1/2}
+\end{gather*}
+Let's bound the $L^p$ norm of $S_Jb$, similar to the proof of Theorem 12.
+\begin{gather*}
+    \lVert S_J b \rVert_p^p = \int_{J} |S_J b(x)|^p dx\\
+    = \int_{J} |\left( \sum_{I \subset J} |\langle b, h_I \rangle|^2 \frac{\chi_I}{|I|} \right)^{1/2}|^p\\
+    = \int_{J} \left( \sum_{I \subset J} |\langle b, h_I \rangle|^2 \frac{\chi_I}{|I|} \right)^{p/2} \\
+    = \int_{J} \left( S\left( \sum_{I \subset J} |\langle b, h_I \rangle| h_I \right) \right)^p \\
+    = \int_{J} \left| S\left( b\chi_J - \langle b \rangle_J \chi_J \right) \right|^p\\
+    = \int \left|b\chi_J - \langle b \rangle_J \chi_J \right|^p = \int_J \left|b - \langle b \rangle_J \right|^p\\
+    \leq \sup_{I \in \D} \int_J \left|b\chi_J - \langle b \rangle_J \chi_J \right|^p = \lVert b \rVert_{\bmo_{\D}^p}^p |J|\\
+    \leq c_p \lVert b \rVert_{\bmo_{\D}}^p |J| \quad \text{ Theorem 10}
+\end{gather*}
+Hence, 
+\begin{gather*}
+    \sup_{J \in \D} \frac{1}{|J|} \left\lVert \left( \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 \frac{\chi_I}{|I|} \right)^{1/2} \right\rVert_{L^p}^p = \sup_{J \in \D} \frac{1}{|J|} \lVert S_Jb \rVert_p^p\\
+    \leq c_p \lVert b \rVert_{\bmo_{\D}}^p < \infty \quad \text{since indep of J}
+\end{gather*}
+\\~
+
+\textbf{Backward direction. } For any dyadic interval $J$, we have:
+\begin{gather*}
+    \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 = \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 \frac{|I|}{|I|}\\
+    = \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 \frac{1}{|I|} \int_J \chi_I(x) dx\\
+    = \int_J \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 \frac{\chi_I(x)}{|I|} dx = \int_J S_J(b)(x)^2 dx\\
+    = \lVert S_J b \rVert_{L^2}^2
+\end{gather*}
+Therefore,
+\begin{gather*}
+    \frac{1}{|J|} \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 \leq \frac{1}{|J|} \lVert S_J b \rVert_{L^2}^2\\
+    \implies \sup_{J\in \D} \frac{1}{|J|} \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 \leq \sup_{J \in \D} \frac{1}{|J|} \left\lVert \left( \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 \frac{\chi_I}{|I|} \right)^{1/2} \right\rVert_{L^2}^2 < \infty
+\end{gather*}
+that is the backward assumption with $p = 2$. Therefore,:
+\begin{gather*}
+    \lVert b \rVert_{\bmo_{\D}^2}^2 = \sup_{J\in \D} \frac{1}{|J|} \sum_{I \in \D: I \subset J} |\langle b, h_I \rangle|^2 < \infty \\
+    \lVert b \rVert_{\bmo_{\D}} \leq c \lVert b \rVert_{\bmo_{\D}^2} < \infty \quad \text{Thm 10}
+\end{gather*}
+Hence, the backward direction has been proved.
+\clearpage
+
+
+\textbf{Problem 5. } A function $f \in L_{loc}^1$. There exist constants $C_1,C_2 > 0$ such that for all $\lambda > 0$ and $I \in \D$:
+\begin{gather*}
+  | \{ x \in I : |f(x) - \langle f \rangle_I| > \lambda \} | \leq C_1 |I| e^{-C_2 \lambda}
+\end{gather*}
+where $\langle f \rangle_I$ denotes the average value of $f$ on $I$. We want to show that $f \in \bmo_{\D}$
+\\~
+
+We can express the integral part of BMO as the measure of the set:
+\begin{gather*}
+    \int_I |f(x) - \langle f \rangle_I| dx = \int_0^{\infty} 1\{ x \in I : |f(x) - \langle f \rangle_I| > \lambda \} d\lambda\\
+    \leq \int_{0}^{\infty} C_1 |I| e^{-C_2 \lambda} d\lambda = \frac{C_1}{C_2} |I|
+\end{gather*}
+Dividing both sides by $I$ we have:
+\begin{gather*}
+    \frac{1}{|I|} \int_I |f(x) - \langle f \rangle_I| dx \leq \frac{C_1}{C_2} \\
+    \implies \sup_{I \in \D}  \fint_I |f(x) - \langle f \rangle_I| dx \leq \frac{C_1}{C_2}
+\end{gather*}
+Therefore $f \in \bmo_{\D}$.
+\\~
+
+
+\textbf{Problem 6. } We know that Hilbert transform is defined on the fourier domain by:
+\begin{gather*}
+    \widehat{Hf}(\xi) = - i \cdot \sgn (\xi) \hat{f}(\xi)
+\end{gather*}
+Therefore,
+\begin{gather*}
+    \widehat{H\tilde{f}}(\xi) = -i\cdot \sgn (\xi) \hat{\tilde{f}}(\xi) = -i\cdot \sgn (\xi) \hat{f}(-\xi)\\
+    \widehat{\widetilde{Hf}}(\xi) = \widehat{Hf(-x)} (\xi) = \widehat{Hf} (-\xi) = -i \cdot \sgn(-\xi) \hat{f} (-\xi)\\
+    = i \cdot \sgn(\xi) \hat{f} (-\xi)
+\end{gather*}
+Hence,
+\begin{gather*}
+    \widehat{H\tilde{f}}(\xi) = - \widehat{\widetilde{Hf}}(\xi)
+\end{gather*}
+Since, all fourier coefficients are equal, $\widetilde{Hf} = - H\tilde{f}$ a.e.
+
+
+\end{document} 

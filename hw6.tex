@@ -1,0 +1,236 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{esint}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Sc}{\mathcal{S}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\supp}{\text{supp}}
+\newcommand{\bmo}{\text{BMO}}
+\newcommand{\sgn}{\text{sgn}}
+
+\title{Homework 6 --  Due 20th April}
+\author{\textbf{Richeek Das -- 66113700}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Problem 1. } Let $f \in L^1(\R)$ satisfying the local Holder continuous property: $\forall x \in \R, \exists \delta_x > 0: \exists C_x > 0, \alpha_x >0$ so that
+\begin{gather*}
+    |f(x) - f(y)| \leq  C_x |x-y|^{\alpha_x}
+\end{gather*}
+whenever $|x-y| < \delta_x$. We want to prove that $\lim_{\varepsilon \to 0} H_{\varepsilon}f(x)$ exists at all $x \in \R$.
+\\~
+
+To show the limit exists, we can show that $H_{\varepsilon}f(x)$ is Cauchy as $\varepsilon \to 0$.
+\\~
+
+Consider $0 < \varepsilon_1 < \varepsilon_2 < \delta_x$ for some $x\in \R$.
+\begin{align*}
+    H_{\varepsilon_1}f(x) - H_{\varepsilon_2}f(x) &= \frac{1}{\pi} \int_{|x-y| > \varepsilon_1} \frac{f(y)}{x-y}dy - \frac{1}{\pi} \int_{|x-y| > \varepsilon_2} \frac{f(y)}{x-y}dy \\
+    &= - \frac{1}{\pi} \int_{|y| > \varepsilon_1} \frac{f(x-y)}{y}dy + \frac{1}{\pi} \int_{|y| > \varepsilon_2} \frac{f(x-y)}{y}dy \\
+    &= \frac{1}{\pi} \int_{\varepsilon_1 < |y| \leq \varepsilon_2} \frac{f(x-y)}{y}dy\\
+    &= \frac{1}{\pi} \int_{\varepsilon_1}^{\varepsilon_2} \frac{f(x-y)}{y}dy + \frac{1}{\pi} \int_{-\varepsilon_2}^{-\varepsilon_1} \frac{f(x-y)}{y}dy \\
+    &= \frac{1}{\pi} \int_{\varepsilon_1}^{\varepsilon_2} \frac{f(x-y)}{y}dy - \frac{1}{\pi} \int_{\varepsilon_2}^{\varepsilon_1} \frac{f(x+z)}{-z}dz \quad \text{ substituting } z=-y\\
+    &= \frac{1}{\pi} \int_{\varepsilon_1}^{\varepsilon_2} \frac{f(x-y) - f(x+y)}{y}dy\\
+    &= \frac{1}{\pi} \int_{\varepsilon_1}^{\varepsilon_2} \frac{f(x-y) - f(x) + (f(x) - f(x+y))}{y}dy
+\end{align*}
+Therefore,
+\begin{align*}
+    |H_{\varepsilon_1}f(x) - H_{\varepsilon_2}f(x)| &\leq \frac{1}{\pi} \int_{\varepsilon_1}^{\varepsilon_2} \frac{|f(x-y) - f(x)|}{|y|}dy + \frac{1}{\pi} \int_{\varepsilon_1}^{\varepsilon_2} \frac{|f(x+y) - f(x)|}{|y|}dy\\
+    &\leq \frac{1}{\pi} \int_{\varepsilon_1}^{\varepsilon_2} \frac{C_x|y|^{\alpha_x}}{|y|}dy + \frac{1}{\pi} \int_{\varepsilon_1}^{\varepsilon_2} \frac{C_x|y|^{\alpha_x}}{|y|}dy \\
+    &= \frac{2C_x}{\pi} \int_{\varepsilon_1}^{\varepsilon_2} y^{\alpha_x - 1}dy\\
+    &= \frac{2C_x}{\pi \alpha_x} (\varepsilon_2^{\alpha_x} - \varepsilon_1^{\alpha_x}) 
+\end{align*}
+Since, $\alpha_x>0$ as $\varepsilon_1,\varepsilon_2 \to 0$, the expression $\frac{2C_x}{\pi \alpha_x} (\varepsilon_2^{\alpha_x} - \varepsilon_1^{\alpha_x}) \to 0$. Therefore $H_{\varepsilon}f(x)$ is Cauchy and $\lim_{\varepsilon \to 0} H_{\varepsilon}f(x)$ exists at all $x \in \R$.
+
+\clearpage
+
+\textbf{Problem 2. } Given a non-degenerate interval $[a,b] \subset \R$ and let $f = \chi_{[a,b]}$. We want to prove that
+\begin{gather*}
+    Hf(x) = \frac{1}{\pi} \log \left| \frac{x-a}{x-b} \right|
+\end{gather*}
+
+Clearly, $f \in \Sc$. Then $Hf(x) = \left( \frac{1}{\pi}p.v.\frac{1}{x} \right) * f(x)$.
+\begin{align*}
+    \frac{1}{\pi}p.v.\frac{1}{x} (f) &:= \frac{1}{\pi} \lim_{\varepsilon\to 0} \int_{|x| > \varepsilon}\frac{f(x)}{x} dx\\
+    Hf(x) &= \frac{1}{\pi}p.v. \int_{-\infty}^{\infty} \frac{f(t)}{x-t} dt\\
+    &= \frac{1}{\pi} \lim_{\varepsilon \to 0} \left( \int_{-\infty}^{x-\varepsilon} \frac{f(t)}{x-t}dt + \int_{x+\varepsilon}^{\infty} \frac{f(t)}{x-t}dt \right)\\
+    &= \frac{1}{\pi} \lim_{\varepsilon \to 0} \left( \int_{-\infty}^{x-\varepsilon} \frac{\chi_{[a,b]}}{x-t}dt + \int_{x+\varepsilon}^{\infty} \frac{\chi_{[a,b]}}{x-t}dt \right)
+\end{align*}
+If $b < x$, then for sufficiently small $\varepsilon$, only first integral survives:
+\begin{align*}
+    Hf(x) &= \frac{1}{\pi}\left( \int_{a}^{b} \frac{\chi_{[a,b]}}{x-t}dt \right) = \frac{1}{\pi} \log \left| \frac{x-a}{x-b} \right|
+\end{align*}
+If $x > a$, then for sufficiently small $\varepsilon$, only second integral survives:
+\begin{align*}
+    Hf(x) &= \frac{1}{\pi}\left( \int_{a}^{b} \frac{\chi_{[a,b]}}{x-t}dt \right) = \frac{1}{\pi} \log \left| \frac{x-a}{x-b} \right|
+\end{align*}
+Otherwise:
+\begin{align*}
+    Hf(x) &= \frac{1}{\pi} \lim_{\varepsilon \to 0} \left( \int_{a}^{x-\varepsilon} \frac{\chi_{[a,b]}}{x-t}dt + \int_{x+\varepsilon}^{b} \frac{\chi_{[a,b]}}{x-t}dt \right) \\
+    &= \frac{1}{\pi} \log \left| \frac{x-a}{\varepsilon} \right| + \frac{1}{\pi} \log \left| \frac{-\varepsilon}{x-b} \right|\\
+    &= \frac{1}{\pi} \log \left| \frac{x-a}{\varepsilon} \right| \left| \frac{-\varepsilon}{x-b} \right| = \frac{1}{\pi} \log \left| \frac{x-a}{x-b} \right|
+\end{align*}
+
+\clearpage
+
+
+\textbf{Problem 3. } We follow a similar proof strategy as we did for Hilbert transform:
+\\~
+
+(1) $L^2$ boundedness:
+\begin{align*}
+    \lVert Tf \rVert_{L^2} = \lVert K*f \rVert_2 = \lVert \hat{K}\cdot \hat{f} \rVert_2 \leq \lVert \hat{K} \rVert_{\infty} \lVert \hat{f} \rVert_2 \leq A \lVert f \rVert_2
+\end{align*}
+This follows by Plancherel.
+\\~
+
+(2) Weak (1,1):
+\\~
+
+Let $f \in L^1(\R)$ and $\lambda > 0$. We apply the CZ decomposition to $f$ at $\lambda$. Then,
+\begin{align*}
+    |\{|Tf| > \lambda\}| \leq |\{|Tg| > \frac{\lambda}{2}\}| + |\{|Tb| > \frac{\lambda}{2}\}|
+\end{align*}
+Now, the good part can be controlled as:
+\begin{align*}
+    |\{|Tg| > \frac{\lambda}{2}\}| \leq \frac{\lVert Tg \rVert_2^2}{(\lambda/2)^2} \leq \frac{2A^2 \lambda \lVert f \rVert_1}{\lambda^2/4} = \frac{8A^2}{\lambda} \lVert f \rVert_1
+\end{align*}
+Let the bad parts $b_j$ be supported on $Q_j$. The intervals $\{Q_j\}$ are disjoint. The total measure of the union $\Omega = \cup_j Q_j$ satisfies $|\Omega| \leq \frac{1}{\lambda} \lvert f \rVert_1$. Define $E = \cup_j 2Q_j$, then $|E| \leq 2\sum_j |Q_j|$. Also $\int_{Q_j} b_j = 0$.
+\begin{align*}
+    &|\{|Tb| > \frac{\lambda}{2}\}| \leq |\{x\in E: |Tb(x)| > \frac{\lambda}{2}\}| + |\{x\notin E: |Tb(x)| > \frac{\lambda}{2}\}| \\
+    &|\{x\in E: |Tb(x)| > \frac{\lambda}{2}\}| \leq |E| \leq \frac{2}{\lambda} \lVert f \rVert_1
+\end{align*}
+\begin{align*}
+    Tb(x) &\leq \sum_j \int_{Q_j} K(x-y)b_j(y)dy \\
+    &= \sum_j \int_{Q_j} [K(x-y) - K(x-c_j)]b_j(y)dy\\
+    &\text{ where } c_j \text{ is the center of } Q_j
+\end{align*}
+For $x \notin E$ and $y \in Q_j$, we have $|x-c_j| > |Q_j|$ and $|y-c_j| \leq \frac{|Q_j|}{2}$.
+\begin{align*}
+    |Tb(x)| &= |\sum_j Tb_j(x)| \leq \sum_j|Tb_j(x)| \\
+    &\leq \sum_j \int_{Q_j} |K(x-y) - K(x-c_j)||b_j(y)|dy \\
+    \frac{2}{\lambda} \int_{\R\backslash E} |Tb(x)| &\leq \int_{\R \backslash E} \sum_j \int_{Q_j} |K(x-y) - K(x-c_j)||b_j(y)|dydx \\
+    &= \sum_j  \int_{Q_j} |b_j(y)| \left( \int_{\R \backslash 2Q_j}  |K(x-y) - K(x-c_j)| dx \right) dy
+\end{align*}
+Now, $\alpha = x-c_j, \beta=y-c_j$. Then $x-y = \alpha - \beta$. Then,
+\begin{align*}
+    \int_{\R \backslash 2Q_j} |K(\alpha - \beta) - K(\beta)| d\alpha \leq B
+\end{align*}
+So,
+\begin{align*}
+    \int_{\R \backslash E} |Tb(x)|dx \leq \sum_j \int_{Q_j} |b_j(y)| Bdy = B \sum_j \lVert b_j \rVert_{L^1} = B\lVert b \rVert_{L^1} \lesssim 4B \lVert f \rVert_{L^1}
+\end{align*}
+Therefore,
+\begin{align*}
+    |\{x\notin E: |Tb(x)| > \frac{\lambda}{2}\}| \leq \frac{2}{\lambda} \int_{\R\backslash E} |Tb(x)| \lesssim \frac{8B}{\lambda} \lVert f \rVert_{L^1}
+\end{align*}
+Combining all of the measures together:
+\begin{align*}
+    |\{|Tf| > \lambda\}| \lesssim \frac{8A^2}{\lambda} \lVert f \rVert_1 + \frac{2}{\lambda} \lVert f \rVert_1 + \frac{8B}{\lambda} \lVert f \rVert_{L^1} \lesssim \lVert f \rVert_{L^1}
+\end{align*}
+Thus, $T$ is weak (1,1).
+\\~
+
+
+By using the Marcinkiewicz interpolation theorem we can say the operator $T$ is strong $(p,p)$ $\forall 1 < p < 2$. For $2 < p < \infty$, we can use duality. The adjoint operator $T^*$ has a kernel $\tilde{K}(x) = K(-x)$, that satisfies the same assumptions. Therefore, $T^*$ is strong $(q,q)$ for $1 < q \leq 2$. By duality, $T$ is strong $(p,p)$ for $2 < p < \infty$.
+
+\clearpage
+
+
+
+\textbf{Problem 4. } Let $m$ be a multiplier on $L^p(\R)$, i.e. the operator $T_m$ defined as $\widehat{T_m f}(\xi) = m(\xi)\hat{f}(\xi)$ is bounded on $L^p$. Show that the functions defined as $m(\xi + a), \forall a \in \R$, and $m(\lambda\xi), \forall \lambda > 0$ are also multipliers on $L^p$, with the same operator norm as $T_m$.
+\\~
+
+$\boldsymbol{m(\xi + a), \forall a \in \R}$:
+\\~
+
+Consider the $(M_af)(x) = e^{-iax}f(x)$. Its inverse $(M_a^{-1}f)(x) = e^{iax}f(x)$. Also,
+\begin{gather*}
+    \widehat{M_af}(\xi) = \hat{f}(\xi + a) \quad \widehat{M_a^{-1}f}(\xi) = \hat{f}(\xi - a)
+\end{gather*}
+Now consider the composition:
+\begin{align*}
+    \widehat{M_aT_mM_a^{-1}f}(\xi) = \widehat{T_mM_a^{-1}f}(\xi + a) = m(\xi+a)\hat{f}(\xi)
+\end{align*}
+This is precisely, $\widehat{T_{m_a}f}(\xi)$ where $m_a(\xi) = m(\xi + a)$. Therefore we have, $T_{m_a} = M_a T_m M_a^{-1}$. Now, 
+\begin{align*}
+    &\lVert T_{m_a} \rVert_p = \lVert  M_a T_m M_a^{-1} \rVert_p \leq \lVert T_{m} \rVert_p\\
+    &\lVert T_{m} \rVert_p = \lVert  M_a^{-1} T_m M_a \rVert_p \leq \lVert T_{m_a} \rVert_p
+\end{align*}
+Therefore, $\lVert T_{m_a} \rVert_p = \lVert T_{m} \rVert_p$.
+\\~
+
+$\boldsymbol{m(\lambda\xi), \forall \lambda > 0}$:
+\\~
+
+Consider the dilation operator $(S_{\lambda}f)(x) = \frac{1}{\lambda} f(\frac{x}{\lambda})$. Its inverse is $(S_{\lambda}^{-1}f)(x) = \lambda f(\lambda x)$. Their FT:
+\begin{align*}
+    &\widehat{S_{\lambda}f}(\xi) = \hat{f}(\lambda \xi)\\
+    &\widehat{S_{\lambda}^{-1}f}(\xi) = \hat{f}(\xi / \lambda)
+\end{align*}
+Now, consider the composition:
+\begin{gather*}
+    \widehat{S_{\lambda}T_m S_{\lambda}^{-1}f}(\xi) = \widehat{T_m S_{\lambda}^{-1}f}(\lambda \xi) = m(\lambda \xi) \hat{f} (\xi) 
+\end{gather*}
+Then the operator, $T_{m_{\lambda}}$ is equivalent to $S_{\lambda}T_m S_{\lambda}^{-1}$. Now,
+\begin{align*}
+    \lVert S_{\lambda} f \rVert_{L^p}^p &= \int \left|\frac{1}{\lambda} f(\frac{x}{\lambda}) \right|^pdx = \int \frac{1}{\lambda^p} |f(y)|^p (\lambda dy)\\
+    &= \lambda^{1-p}\int |f(y)|^p dy =  \lambda^{1-p} \lvert f\rVert_p^p\\
+    \lVert S_{\lambda}^{-1} f \rVert_{L^p}^p &= \int \left|\lambda f(\lambda x) \right|^pdx = \int \lambda^p |f(y)|^p (dy / \lambda)\\
+    &= \lambda^{p-1}\int |f(y)|^p dy =  \lambda^{p-1} \lvert f\rVert_p^p
+\end{align*}
+
+Therefore,
+\begin{align*}
+    \lVert T_{m_{\lambda}} \rVert_p &\leq \lambda^{\frac{1-p}{p}} \lvert T_m \rVert_p \lambda^{\frac{p-1}{p}} = \lvert T_m \rVert_p\\
+    \lVert T_{m} \rVert_p &\leq \lambda^{\frac{p-1}{p}} \lvert T_m \rVert_p \lambda^{\frac{1-p}{p}} = \lvert T_{m_{\lambda}} \rVert_p
+\end{align*}
+Therefore, $\lVert T_{m_{\lambda}} \rVert_p = \lVert T_{m} \rVert_p$.
+
+\clearpage
+
+
+\textbf{Problem 5. } Prove that if the Hilbert transform is strong $(p, q), 1 \leq p, q \leq \infty$, then there must $p = q$.
+\\~
+
+This means there is a constant $C > \infty: \forall f \in L^p$ we have:
+\begin{gather*}
+    \lVert Hf\rVert_q \leq C \lVert f \rVert_p
+\end{gather*}
+
+Now from the property of Hilbert transform we know that it commutes with the dilation operator:$H(D_{\lambda}f) = D_{\lambda} Hf$. Now if $f \in L^p$ then $D_{\lambda}f \in L^p$. We can write the strong (p,q) property as:
+\begin{gather*}
+    \lVert H(D_{\lambda}f)\rVert_{q} \leq C\lVert D_{\lambda}f\rVert_p
+\end{gather*}
+Now,
+\begin{gather*}
+    \lvert D_{\lambda}f \rVert_p = \left( \int f(\lambda x) dx\right)^{1/p} = \lambda^{-1/p}\lVert f \rVert_p
+\end{gather*}
+Therefore,
+\begin{align*}
+    \lVert H(D_{\lambda}f)\rVert_{q} &\leq C\lVert D_{\lambda}f\rVert_p \\
+    \implies \lVert D_{\lambda}Hf)\rVert_{q} &\leq C\lVert D_{\lambda}f\rVert_p \\
+    \implies \lambda^{-1/q} \lVert Hf)\rVert_{q} &\leq C\lambda^{-1/p}\lVert f\rVert_p\\
+    \implies \lVert Hf)\rVert_{q} &\leq C\lambda^{1/q-1/p}\lVert f\rVert_p
+\end{align*}
+Since the constant is supposed to be universal, $\frac{1}{q} - \frac{1}{p} = 0 \implies p=q$.
+
+
+
+
+
+\end{document} 

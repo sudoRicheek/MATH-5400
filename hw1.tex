@@ -1,0 +1,136 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+
+\title{Homework 1 --  Due 2nd Feb}
+\author{\textbf{Richeek Das -- 66113700}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Problem 1. } We can use Holder's Ineq. Since $p \in (p_1, p_2)$, There must be a scaling coefficient $\beta \in (0, 1): \frac{1}{p} = \frac{\beta}{p_2} + \frac{1- \beta}{p_1} \implies 1 = \frac{p\beta}{p_2} + \frac{p(1- \beta)}{p_1}$.
+\begin{gather*}
+    \int_S |f|^p d\mu = \int_S |f|^{p\beta} |f|^{p(1-\beta)}d\mu\\
+    \leq \left( \int_S|f|^{p_2}d\mu \right)^{\frac{p\beta}{p_2}} \left( \int_S |f|^{p_1} d\mu \right)^{\frac{p(1-\beta)}{p_1}} = c_2^{p\beta} c_1^{p(1-\beta)} < \infty
+\end{gather*}
+\\~
+
+\textbf{Problem 2. } (a) Assuming $\sum_{i=1}^{\infty} |a_i| > 0$. We write:
+\begin{gather*}
+    \frac{\left(\sum_{i=1}^{\infty} |a_i|^q \right)^{\frac{1}{q}}}{\left(\sum_{i=1}^{\infty} |a_i|^p \right)^{\frac{1}{p}}} = \left( \frac{\sum_{i=1}^{\infty} |a_i|^q }{\left(\sum_{i=1}^{\infty} |a_i|^p \right)^{\frac{q}{p}}} \right)^{\frac{1}{q}}\\
+    = \left( \sum_{i=1}^{\infty} \left( \frac{ |a_i|^p }{\sum_{i=1}^{\infty} |a_i|^p} \right)^{\frac{q}{p}} \right)^{\frac{1}{q}} \\
+    \leq \left( \sum_{i=1}^{\infty} \frac{ |a_i|^p }{\sum_{i=1}^{\infty} |a_i|^p} \right)^{\frac{1}{q}} \leq 1
+\end{gather*}
+
+(b) Similarly we can apply Holder's inequality to partial sums with $r = \frac{q}{p}$ and $s = \frac{r}{r-1}$. Then $\frac{1}{r} + \frac{1}{s} = 1$. This gives us:
+\begin{gather*}
+    \sum_{n=1}^{N} |a_n|^p \leq \left( \sum_{n=1}^{N} |a_n|^{pr} \right)^{\frac{1}{r}} \left( \sum_{n=1}^N 1^{\frac{r}{r-1}} \right)^{\frac{r-1}{r}} = \left( \sum_{n=1}^{N} |a_n|^{q} \right)^{\frac{p}{q}}N^{1 - \frac{p}{q}}\\
+    \implies \left( \sum_{n=1}^{N} |a_n|^p \right)^{\frac{1}{p}} \leq N^{\frac{1}{p} - \frac{1}{q}} \left( \sum_{n=1}^{N} |a_n|^{q} \right)^{\frac{1}{q}}
+\end{gather*}
+$N^{\frac{1}{p} - \frac{1}{q}}$ is the best we can do, because we achieve equality above if $a_n = 1, \forall n$.
+\\~
+
+\textbf{Problem 3. } (a) We want to show that the set of simple functions is not dense in $L^{\infty}(\R)$. (Here a simple function is defined to be a finite linear combination of indicator functions of sets of finite measure.)
+\\~
+
+Consider a function:
+\begin{gather*}
+    f(x) = \begin{cases}
+        1 & x \in \R\backslash\Q \\
+        0 & x \in \Q
+    \end{cases}
+\end{gather*}
+
+Note that $\mu(\R\backslash\Q) = \infty$, since we are working with the Lebesgue measure.
+
+A simple function is a finite linear combination of indicator functions of measurable sets:
+\begin{gather*}
+    g(x) = \sum_{k=1}^n a_k 1_{A_k(x)}
+\end{gather*}
+where $a_1,\cdots,a_n$ is a sequence of real or complex numbers.
+\\~
+
+Now $\R\backslash\Q$ cannot be represented as a finite disjoint union of measurable sets under the Lebesgue measure, hence $\exists x\in \R$, where $g(x) = 0$. Hence $\lVert f - g\rVert_{\infty} = 1$. Since $f \in L^{\infty}$ and no simple function comes close to it, we can conclude that simple functions are not dense in $L^{\infty}$.
+\\~
+
+(b) Since $A$ is dense in $L^p(I)$, $\forall f\in A, \forall \varepsilon > 0, \exists g \in L^{p}(I): \lVert f-g \rVert_{p} < \varepsilon$. Now similar to Problem 2, we can invoke Holder's inequality with $r = \frac{p}{q}, s = \frac{r}{r-1}$.
+\begin{gather*}
+     \lVert (f-g)^q \rVert_1 \leq \lVert (f-g)^q \rVert_r \lVert 1 \rVert_s\\
+     \implies \int_I (f-g)^q d\mu \leq \left( \int_I (f-g)^{qr} d\mu \right)^{\frac{1}{r}} \left(\int_I 1 d\mu\right)^{\frac{1}{s}}\\
+     \implies \left( \int_I (f-g)^q d\mu \right)^{\frac{1}{q}} \leq \left( \int_I (f-g)^{p} d\mu \right)^{\frac{1}{p}} \left(\int_I 1 d\mu\right)^{\frac{1}{q} - \frac{1}{p}} \\
+     \implies \lVert f-g \rVert_q \leq  \mu(I)^{\frac{1}{q} - \frac{1}{p}} \lVert f-g \rVert_p < \varepsilon \mu(I)^{\frac{1}{q} - \frac{1}{p}}
+\end{gather*}
+Since $\mu(I)$ is finite and $q$ is finite, we can conclude that A is dense in $L^q(I)$ as well.
+\\~
+
+\textbf{Problem 4. } $f: \mathbb{T} \rightarrow \mathbb{C}$ is a function of period 1.
+\\~
+
+(a)
+\begin{gather*}
+    \hat{\bar{f}}(k) = \int_{0}^1 \overline{f(x)}e^{-2\pi ikx}dx = \int_{0}^1 \overline{f(x) e^{2\pi ikx}}dx\\
+    = \bar{\hat{f}}(-k),\, \forall k\in\Z
+\end{gather*}
+
+(b) If $f$ is real valued:
+\begin{gather*}
+    \hat{f}(-k) = \int_{0}^1 f(x)e^{2\pi ikx}dx = \int_{0}^1 \overline{f(x)e^{-2\pi ikx}}dx ,\, \text{ since } f(x) = \bar{f}(x)\\
+    = \bar{\hat{f}}(k), \, \forall k \in \Z
+\end{gather*}
+
+\textbf{Problem 5. } (a)
+\begin{gather*}
+    \tau_y(f)(\cdot) := f(\cdot + y)\\
+    \widehat{\tau_y(f)}(k) = \int_0^1f(x + y) e^{-2\pi ikx} dx\\
+    = \int_{y}^{1+y}f(x)e^{-2\pi i k (x-y)}dx, \quad \text{ substitute } x +y \rightarrow x\\
+    = e^{2\pi iky} \hat{f}(k) \quad \text{ since } f \text{ has a period of 1}
+\end{gather*}
+
+(b) $f \in C^{\alpha}(\T)$:
+\begin{gather*}
+    \widehat{\partial^{\alpha}f}(k) = \int_{0}^{1} e^{-2\pi ikx} \partial^{\alpha}f(x)dx \quad \text{ use integration by parts}\\
+    = e^{-2\pi ikx} \partial^{\alpha-1}f(x) \rvert_{0}^1 - (-2\pi ik)\int_{0}^{1} e^{-2\pi ikx} \partial^{\alpha-1}f(x)dx\\
+    = 2\pi ik \widehat{\partial^{\alpha-1}f}(k)
+\end{gather*}
+since derivative of continuously differentiable periodic functions are periodic with the same period. Hence we can repeat this step for $\alpha$ times:
+\begin{gather*}
+    \widehat{\partial^{\alpha}f}(k) = (2\pi ik)^{\alpha} \widehat{f}(k)
+\end{gather*}
+
+\textbf{Problem 6. } $\{f_n:\R\rightarrow\C\}$ be a sequence of functions that converge to $f$ in $L^p(\R)$ for some $1 \leq p\leq \infty$. That is $\lim_{n\rightarrow\infty} \lVert f - f_n\rVert_{L^p} = 0$. We want to show that under lebesgue measure: $\forall \varepsilon > 0, \lim_{n\rightarrow\infty} \mu(\{x \in\R: |f_n(x) -f(x)| > \varepsilon\}) = 0$.
+\\~
+
+We can use Chebyshev's inequality for this problem:
+\begin{gather*}
+    \forall \varepsilon>0, 1 \leq p <\infty:
+    \mu(\{x: |f(x) - f_n(x)| > \varepsilon\}) \leq \varepsilon^{-p}\int |f_n(x) - f(x)|^p d\mu
+\end{gather*}
+Now, since $f_n$ is a sequence of functions that converges to $f$ in $L^p$, $\forall \varepsilon'>0, \exists N:\forall n > N:$
+\begin{gather*}
+    \left(\int |f_n(x) - f(x)|^p d\mu \right)^{\frac{1}{p}} < \varepsilon'\\
+    \implies \int |f_n(x) - f(x)|^p d\mu < \varepsilon'^{p}
+\end{gather*}
+Therefore,
+\begin{gather*}
+    \forall \varepsilon',\varepsilon>0, \exists N: \forall n> N,  1 \leq p <\infty:
+    \mu(\{x: |f(x) - f_n(x)| > \varepsilon\}) \leq \varepsilon^{-p}\varepsilon'^{p}\\
+    \implies \lim_{n \rightarrow \infty} \mu(\{x \in \R: |f(x) - f_n(x)| > \varepsilon\}) = 0
+\end{gather*}
+
+\textbf{Case: } $p = \infty$. That is $\forall \varepsilon>0, \exists N: \forall n>N, \text{ess sup} |f(x) - f_n(x)| < \varepsilon$
+\begin{gather*}
+    \implies \inf \{M \geq 0: |f_n(x) - f(x)| \leq M, \text{ a.e. in } \R\} < \varepsilon\\ 
+    \implies \mu(\{x\in \R: |f_n(x) - f(x)| > \varepsilon\}) = 0 \quad \text{ since } f \text{ and } f_n \text{ agree a.e.}
+\end{gather*}
+
+\end{document} 

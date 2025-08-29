@@ -1,0 +1,230 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{esint}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\Sc}{\mathcal{S}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\supp}{\text{supp}}
+
+\title{Homework 4 --  Due 23rd March}
+\author{\textbf{Richeek Das -- 66113700}}
+
+\begin{document}
+
+\maketitle
+
+\textbf{Problem 1. } Let $I = \left[ \frac{k_1}{2^{n_1}}, \frac{k_1+1}{2^{n_1}} \right)$ and $J = \left[ \frac{k_2}{2^{n_2}}, \frac{k_2+1}{2^{n_2}} \right)$. If $I \cap J \neq \phi$ then $\exists x: x\in I$ and $x \in J$.
+\\~
+
+If $n_1=n_2$ and $k_1 \neq k_2$, then $I \cap J = \phi$. So $k_1 = k_2$, but this means $I = J$, which is assumed to be not the case.
+\\~
+
+If $n_1 \neq n_2$, wlog assume $n_1 < n_2$. Then I can be written as the union of $2^{n_2-n_1}$ dyadic intervals of level $n_2$. If $I \cap J \neq \phi$, then at least one of these intervals must intersect $J$. Since, $J$ is also of level $n_2$, from our previous observation, we know $J$ must be equal to one of these intervals. Hence, $J \subsetneq I$.
+\\~
+
+Hence, there are 3 possibilities, $I\cap J = \phi, I \subsetneq J, J \subsetneq I$.
+\\~
+
+
+\textbf{Problem 2. } (a) We need to find an I s.t. $Q \subset I$ and $|I| \leq 6 |Q|$. For $Q = [-1,1]$, consider the first shifted dyadic system $\D_1$ with $j=-2,k=-1$:
+\begin{gather*}
+    I_{-2,-1}^1 = \left[ 2^{2}(-1 + \frac{1}{3}(-1)^{-2}), 2^{2}(-1 + 1 + \frac{1}{3}(-1)^{-2}) \right) = \left[ -\frac{8}{3}, \frac{4}{3} \right)
+\end{gather*}
+Therefore, $I_{-2,-1}^1 \supset [-1, 1]$ and $|I_{-2,-1}^1| = 4 \leq 6|Q| = 12$.  
+\\~
+
+For $Q = \left[ \frac{1}{3}, \frac{5}{3}\right]$, consider the standard dyadic lattice $\D_0$ with $j=-1,k=0$:
+\begin{gather*}
+    I_{-1,0}^0 = \left[ 2^{1}(0 + \frac{0}{3}(-1)^{-1}), 2^{1} (0 + 1 + \frac{0}{3} (-1)^{-1}) \right) = \left[ 0, 2 \right)
+\end{gather*}
+Therefore, $I_{-1,0}^0 \supset [\frac{1}{3}, \frac{5}{3}]$ and $|I_{-1,0}^0| = 2 \leq 6|Q| = 8$.
+\\~
+
+(b) Following, the hint, we consider dyadic intervals $I$ with $3|Q| < |I| \leq 6|Q|$. Choose $j \in \Z: 2^{-j-1} \leq 3|Q| < 2^{-j}$. Therefore, the length of the dyadic intervals at level $j$ satisfy:
+\begin{gather*}
+    3|Q| < 2^{-j} \leq 6|Q|
+\end{gather*}
+It is easy to verify by contradiction that such a $j$ always exists.
+
+We want to show that at least one of our 3 shifted dyadic systems fully contain the interval $Q$. Consider the midpoint of $Q = [a,b]$, $c = \frac{a+b}{2}$. For $c$ to be in a dyadic interval $I_{j,k}^m$ we have to choose $k$:
+\begin{gather*}
+    2^{-j}(k + \frac{m}{3} (-1)^{j}) \leq c < 2^{-j} (k + 1 + \frac{m}{3}(-1)^{j})
+\end{gather*}
+But this does not ensure that $Q$ will be fully contained in some such interval $I_{j,k}^m$. For $Q$ to be contained in $I_{j,k}^m$ we need:
+\begin{gather*}
+    a \geq 2^{-j}(k + \frac{m}{3}(-1)^{j}) \quad \text{and} \quad b < 2^{-j}(k + 1 + \frac{m}{3}(-1)^{j})
+\end{gather*}
+An important thing to note is that $c$ is contained in $I$, and the location of $c$ inside $I$ is crucial to knowing if $Q$ is contained in $I$. The 3 systems at level $j$, create a sequence of endpoints uniformly spaced at $\frac{2^{-j}}{3}$. This implies, for $c$, there is an endpoint of some $I_{j,k}^m$ no farther than $\frac{2^{-j}}{6}$. Therefore, there exists a system $\D_m$ such that $c$ is at least $\frac{2^{-j}}{6}$ away from any endpoint (remember, this is possible because the length of the intervals is $2^{-j}$). 
+\\~
+
+Therefore $\exists I_{j,k}^m: $, distance of $c$ from the left and right endpoint of $I_{j,k}^m$ is at least $\frac{2^{-j}}{6}$. For $Q$ to be contained in $I$, we need:
+\begin{gather*}
+    \frac{|Q|}{2} < \frac{2^{-j}}{6} \text{ since we don't include endpoints}\\
+    \implies |Q| < \frac{2^{-j}}{3}
+\end{gather*}
+Now, by our initial design of intervals, $3|Q| < 2^{-j}$, thus such an interval is always possible for all $Q$. This proves the Three Grids Lemma. $\square$
+\\~
+
+
+\textbf{Problem 3. } Since $f \in L^2$, and $\{h_I\}_{I \in \mathcal{D}}$ is an orthonormal basis of $L^2$, we can write:
+\begin{gather*}
+    f = \sum_{I \in \mathcal{D}} \langle f, h_I \rangle h_I
+\end{gather*}
+Now $I_0 \in \mathcal{D}$, so we can write a restricted version of $f$ with support $I_0$:
+\begin{gather*}
+    f_{I_0} = \left[ \sum_{I \in \mathcal{D}: I \supsetneq I_0} \langle f, h_I \rangle h_I + \sum_{I \in \mathcal{D}: I \subseteq I_0} \langle f, h_I \rangle h_I  \right]_{I_0}
+\end{gather*}
+This restriction is obvious since we consider all dyadic intervals having a non-empty intersection with $I_0$. Any other interval, will have $0$ contribution, since $\supp(h_I) = I$. Now,
+\begin{gather*}
+    \int_{I_0} f = \int_{I_0} \sum_{I \in \mathcal{D}: I \supsetneq I_0} \langle f, h_I \rangle h_I + \int_{I_0} \sum_{I \in \mathcal{D}: I \subseteq I_0} \langle f, h_I \rangle h_I
+\end{gather*}
+Now in the second integral since, $I \subseteq I_0$
+\begin{gather*}
+    \int_{I_0} \sum_{I \in \mathcal{D}: I \subseteq I_0} \langle f, h_I \rangle h_I = \sum_{I \in \mathcal{D}: I \subseteq I_0} \langle f, h_I \rangle \int_{I_0} h_I = 0
+\end{gather*}
+Therefore,
+\begin{gather*}
+    \int_{I_0} f = \int_{I_0} \sum_{I \in \mathcal{D}: I \supsetneq I_0} \langle f, h_I \rangle h_I (x) dx\\
+    = \sum_{I \in \mathcal{D}: I \supsetneq I_0} \langle f, h_I \rangle \int_{I_0} h_I (x) dx
+\end{gather*}
+Now, since $I \supsetneq I_0$, $I_0$ is either contained in the left or right child of $I$. Hence, $h_I$ is constant on $I_0$. Therefore,
+\begin{gather*}
+    \int_{I_0} f = \sum_{I \in \mathcal{D}: I \supsetneq I_0} \langle f, h_I \rangle h_I (x) \int_{I_0} dx = \sum_{I \in \mathcal{D}: I \supsetneq I_0} \langle f, h_I \rangle h_I (x) |I_0|\\
+    \implies \frac{1}{|I_0|}\int_{I_0} f = \sum_{I \in \mathcal{D}: I \supsetneq I_0} \langle f, h_I \rangle h_I (x) \quad \forall x \in I_0
+\end{gather*}
+
+
+\textbf{Problem 4. } \textbf{1. Orthonormality}
+\\~
+
+Clearly, the $L^2$ norm of the members of the family is 1. We need to prove orthogonality:
+\begin{gather*}
+    \langle\chi_{[0,1]}, h_I \rangle = \int_{[0,1]} h_I = 0 \quad \forall I\\
+    \langle h_I, h_J \rangle = \int_{[0,1]} h_Ih_J = 0 \quad \text{ when } I\neq J
+\end{gather*}
+
+\textbf{2. Completeness}
+\\~
+
+Let $f \in L^2[0,1]$ be orthogonal to all functions in our family. Then we can observe:
+\begin{gather*}
+    \langle f, \chi_{[0,1]} \rangle = 0 \implies \int_{[0,1]} f = 0\\
+    \langle f, h_I \rangle = \frac{1}{|I|} \int_{I} f\mathbbm{1}_{[I^-]} - f\mathbbm{1}_{[I^+]} = 0 \\
+    \implies  \int_{I^-} f = \int_{I^+} f
+\end{gather*}
+However, this means, $\langle f, h_0 \rangle = 0 \implies \int_{[0,0.5]}f = \int_{[0.5,1]}f$ and $\int_{[0,0.5]}f + \int_{[0.5,1]}f = \int_{[0,1]}f = 0$. Hence, $\forall I \in \D([0,1]), \int_{I} f = 0$, since the mean over each child is 0.
+\\~
+
+Define, $E_k f(x) = \sum_{I \in I_k} \left(\fint_{I} f\right)\mathbbm{1}_I (x)$ as the conditional expectation of $f$ wrt the $\sigma-$algebra generated by $I_k$. Here, $I_k$ is the $k$-th dyadic level of $\D([0,1])$. Note that $E_k f(x) = 0, \forall k$.
+\\~
+
+Now, it is obvious if $f \in C_0$ then $\lim_{k\to \infty} E_k f(x) = f(x)$ and by density of $C_0$ in $L^2$, we know that $\lim_{k\to \infty} E_k f(x) = f(x)$ a.e. Therefore,we have $E_k f \to f$ a.e. as $n \to \infty$. Therefore $f=0$ a.e. Therefore, the only function orthogonal to our family is 0, hence the family is orthonormal and complete.
+\\~
+
+\textbf{Problem 5. } Let,
+\begin{gather*}
+    Sf = \left( \sum_{I \in \D} |\langle f, h_I\rangle|^2 \frac{\chi_I}{|I|} \right)^{\frac{1}{2}}
+\end{gather*}
+
+(a)
+\begin{gather*}
+    \lVert Sf \rVert_{L^2}^2 = \int (Sf)^2 dx = \int \sum_{I \in \D} |\langle f, h_I\rangle|^2 \frac{\chi_I}{|I|} dx \\
+    = \sum_{I \in \D} |\langle f, h_I\rangle|^2 \int \frac{\chi_I}{|I|} dx\\
+    = \sum_{I \in \D} |\langle f, h_I\rangle|^2
+    = \lVert f \rVert_{L^2}^2
+\end{gather*}
+since $\{h_I\}$ is an orthonormal basis and we use parseval's identity. Therefore, $\lVert Sf \rVert_{L^2} = \lVert f \rVert_{L^2}$.
+\\~
+
+(b) 
+\begin{gather*}
+    (Sf(x))^2 = \sum_{I \in \D} |\langle f, h_I\rangle|^2 \frac{\chi_I (x)}{|I|}
+\end{gather*}
+For each $x$, there is exactly one dyadic interval $I_k$ per level, such that $x \in I_k$. Thus, we can write the sum as:
+\begin{gather*}
+    (Sf(x))^2 = \sum_{n \in \Z} |\langle f, h_{I_n}\rangle|^2 \frac{\chi_{I_n}(x)}{|I_n|}
+\end{gather*}
+Now,
+\begin{gather*}
+    \Delta_k f(x) = \sum_{I \in I_k} \langle f, h_I \rangle h_I (x)
+\end{gather*}
+Now only one interval in $I_k$ (k-th level) contains $x$. We can call that interval $I_k$ and abuse notation to write $\Delta_n f(x) = \langle f, h_{I_n} \rangle h_{I_n} (x)$. Therefore,
+\begin{gather*}
+    |\Delta_n f(x)|^2 = |\langle f, h_{I_n} \rangle h_{I_n} (x)|^2 = \langle f, h_{I_n} \rangle^2 |h_{I_n} (x)|^2 \\
+    = \langle f, h_{I_n} \rangle^2 \frac{\chi_{I_n}(x)}{|I_n|}
+\end{gather*}
+Therefore,
+\begin{gather*}
+    (Sf(x))^2 = \sum_{n \in \Z} |\langle f, h_{I_n}\rangle|^2 \frac{\chi_{I_n}(x)}{|I_n|} = \sum_{n \in \Z} |\Delta_n f(x)|^2, \quad \forall x \in \R
+\end{gather*}
+\\~
+
+\textbf{Problem 6. } Let,
+\begin{gather*}
+    Sf = \left( \sum_{I \in \D} |\langle f, h_I\rangle|^2 \frac{\chi_I}{|I|} \right)^{\frac{1}{2}}
+\end{gather*}
+We want to show that $S$ is weak (1,1). That is $\exists c: \lVert Sf \rVert_{L^{1,\infty}} \leq c \lVert f \rVert_{L^1}, \forall f \in L^1$.
+\\~
+
+Here,
+\begin{gather*}
+    \lVert Sf \rVert_{L^{1, \infty}} := \sup_{\lambda > 0} \lambda \mu\{x : |Sf(x)| > \lambda\}
+\end{gather*}
+By Calderón–Zygmund Decomposition, $f\in L^1(\R), \, \lambda >0$, there exists a sequence $\{Q_j\}$ of disjoint dyadic intervals s.t.
+\begin{enumerate}
+    \item $|f(x)| \leq \lambda$ a.e. $x \notin \cup Q_j$
+    \item $|\cup Q_j| = \sum |Q_j| \leq \frac{c}{\lambda} \lVert f \rVert_{L^1}$
+    \item $\lambda < \fint_{Q_j} |f| \leq 2\lambda$
+\end{enumerate}
+Now, we can write $f = g + b := g + \sum_j b_j$ where $b_j = \left( f - \fint_{Q_j} f \right)\mathbbm{1}_{Q_j}$. And we have:
+\begin{gather*}
+    g = f - b = \begin{cases}
+        f(x) & x \notin \cup Q_j\\
+        \fint_{Q_j} f& x \in Q_j
+    \end{cases}
+\end{gather*}
+Now,
+\begin{gather*}
+    \mu\{x: Sf(x) > \lambda\} \leq \mu\{x \in \cup Q_j: Sf(x) > \lambda\} + \mu\{x \notin \cup Q_j: Sf(x) > \lambda\}
+\end{gather*}
+Now $\forall x \notin \cup Q_j$
+\begin{gather*}
+    Sb(x) = \left( \sum_{I \in \D} \left|\left\langle \sum_j b_j, h_I \right\rangle \right|^2 \frac{\chi_I}{|I|} \right)^{\frac{1}{2}}\\
+    = \left( \sum_{I \in \D} \left|\sum_j  \left\langle b_j, h_I \right\rangle \right|^2 \frac{\chi_I}{|I|} \right)^{\frac{1}{2}} \quad \text{ linearity of inner prod}
+\end{gather*}
+$b_j(x) = 0, \forall x \notin Q_j$. Therefore $Sb(x) = 0, \forall x \notin \cup Q_j$.
+\\~
+
+By Chebyshev's inequality,
+\begin{gather*}
+    \mu\{x \notin \cup Q_j: Sf(x) > \lambda\} = \mu\{x \notin \cup Q_j: Sg(x) > \lambda\}\\
+    \leq \mu\{x: |Sg(x)| > \lambda\}\\
+    \leq \frac{1}{\lambda^2} \lVert Sg \rVert_{2}^2 \leq \frac{1}{\lambda^2} \lVert g \rVert_{2}^2\\
+    \leq \frac{1}{\lambda^2} \lVert g \rVert_{\infty}\lVert g \rVert_{1} \lesssim \frac{1}{\lambda} \lVert f \rVert_1
+\end{gather*}
+Let's bound the other measure:
+\begin{gather*}
+    \mu\{x \in \cup Q_j: Sf(x) > \lambda\} \leq \mu\{\cup Q_j\} \leq \frac{C}{\lambda} \lVert f \rVert_1
+\end{gather*}
+This follows directly from CZ decomposition. Therefore we can conclude,
+\begin{gather*}
+    \mu\{x: Sf(x) > \lambda\} \leq \mu\{x \in \cup Q_j: Sf(x) > \lambda\} + \mu\{x \notin \cup Q_j: Sf(x) > \lambda\}\\
+    \lesssim \frac{1}{\lambda} \lVert f \rVert_1\\
+    \implies \lambda \mu\{x: Sf(x) > \lambda\} \lesssim \lVert f \rVert_1\\
+    \implies \lVert f \rVert_{L^{1, \infty}(\R)} = \sup_{\lambda >0}  \lambda \mu\{x: Sf(x) > \lambda\}  \lesssim \lVert f \rVert_1, \quad \forall f \in L^1
+\end{gather*}
+Therefore $f$ is weak (1,1).
+
+\end{document} 
